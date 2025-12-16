@@ -33,7 +33,7 @@ const App: React.FC = () => {
     if (stored) {
       const { date, count } = JSON.parse(stored);
       if (date === today) {
-        if (count >= 5) {
+        if (count >= 100) {
           return false;
         }
         localStorage.setItem('projectCount', JSON.stringify({ date: today, count: count + 1 }));
@@ -112,11 +112,44 @@ const App: React.FC = () => {
         });
       }
 
-      const prompt = `You are an expert project manager helping prevent scope creep and budget overruns.
+   const prompt = `You are an expert project manager helping prevent scope creep and budget overruns.
 
 ${context}
 
-Your task: Generate ONE intelligent question OR decide if we have enough information.
+CRITICAL FIRST STEP - INPUT VALIDATION:
+Before generating any question, you MUST validate if this is a legitimate PROJECT (not a simple task).
+
+✅ ACCEPT as PROJECT:
+- Building/developing something complex (app, website, software, building, system)
+- Launching products/services/campaigns
+- Organizing events with multiple components
+- Implementing business systems
+- Managing construction/renovation
+- Creating marketing campaigns
+- Planning complex initiatives
+
+❌ REJECT as SIMPLE TASK:
+- Daily activities: "cook rice", "eat food", "drive car", "ride bike", "take shower"
+- Simple errands: "buy groceries", "send email", "make coffee"
+- Basic chores: "clean room", "do laundry", "water plants"
+- One-person quick actions: "read article", "watch video", "call someone"
+
+❌ REJECT as GIBBERISH/NONSENSE:
+- Impossible/meaningless constructions: "build rice", "construct pizza", "develop fart", "create air"
+- Random words without meaning
+- Anything that doesn't make logical sense as a project
+
+VALIDATION CHECK:
+If the project description is a simple task or gibberish, return:
+{
+  "shouldContinue": false,
+  "isValid": false,
+  "validationType": "task" or "gibberish",
+  "validationMessage": "🚫 This seems like a [simple task/gibberish input] rather than a project. Our AI is designed for complex projects with multiple phases, budgets, and timelines. Please describe a legitimate project like: building an app, launching a product, organizing an event, or implementing a business system.",
+  "reasoning": "Rejected because: [specific reason]"
+}
+
+If VALID PROJECT, proceed with questioning:
 
 Analysis:
 - We've asked ${previousQA.length} questions so far
@@ -125,38 +158,61 @@ Analysis:
   ${previousQA.length >= 5 && previousQA.length < 10 ? '→ OPERATIONAL details (how things work, processes, user flows, technical requirements)' : ''}
   ${previousQA.length >= 10 ? '→ EDGE CASES and RISKS (what could go wrong, backup plans, legal issues, scaling)' : ''}
 
-Based on previous answers, you should:
-1. Identify gaps in requirements
-2. Ask about unconsidered edge cases
-3. Probe for hidden complexities
-4. Question assumptions
+QUESTION PRIORITIES:
+1. **Budget questions are MANDATORY** - Must ask at least 2 budget-related questions (total cost, breakdown, contingency)
+2. **Timeline questions are MANDATORY** - Must ask at least 2 timeline questions (deadline, milestones, phases)
+3. Identify gaps in requirements
+4. Ask about unconsidered edge cases
+5. Probe for hidden complexities
+6. Question assumptions
 
 Decision: Should we continue asking questions?
 - If we have comprehensive coverage of core requirements, operations, AND risks → STOP
-- If critical information is still missing → CONTINUE with a new question
+- If critical information (budget, timeline, requirements) is still missing → CONTINUE
 - Maximum questions allowed: 20
+- At question 15: Ask user if they want to proceed with 5 more questions
 
 Return ONLY a JSON object in this EXACT format:
+
+If INVALID (task or gibberish):
 {
-  "shouldContinue": true/false,
-  "category": "Category Name" (only if shouldContinue is true),
-  "question": "The question text" (only if shouldContinue is true),
-  "icon": "appropriate emoji" (only if shouldContinue is true),
-  "type": "standard" or "outside-box" (only if shouldContinue is true),
-  "reasoning": "Brief explanation of your decision"
+  "shouldContinue": false,
+  "isValid": false,
+  "validationType": "task" or "gibberish",
+  "validationMessage": "Clear rejection message",
+  "reasoning": "Why it was rejected"
+}
+
+If VALID and continuing:
+{
+  "shouldContinue": true,
+  "isValid": true,
+  "category": "Budget" | "Timeline" | "Requirements" | "Risks" | "Scope" | "Technical" | "Stakeholders",
+  "question": "Specific, relevant question",
+  "icon": "appropriate emoji",
+  "type": "standard" or "outside-box",
+  "reasoning": "Why this question is important"
+}
+
+If VALID but stopping (sufficient info gathered):
+{
+  "shouldContinue": false,
+  "isValid": true,
+  "reasoning": "We have sufficient information across all areas"
 }
 
 Important:
-- If shouldContinue is false, only include "shouldContinue" and "reasoning"
-- If shouldContinue is true, include all fields
+- ALWAYS validate on first question
 - Make questions specific to THIS project
 - Consider what we already know from previous answers
-- Type should be "outside-box" if asking about risks, edge cases, or what-ifs`;
+- Type should be "outside-box" if asking about risks, edge cases, or what-ifs
+- Ensure budget and timeline are covered before stopping`;
 
       const response  = await genAI.models.generateContent({
            model: 'gemini-2.5-flash',
     contents: prompt,
       });
+      console.log('Response from Gemini',{response});
       // const response = await result.response;
       const text = response?.text as string;
       
