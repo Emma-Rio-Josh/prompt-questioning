@@ -407,12 +407,58 @@ Important:
   // HOME PAGE
   if (page === 'home') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-200 via-blue-600 to-green-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-8 sm:mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl sm:rounded-3xl shadow-2xl mb-4 sm:mb-6">
-              <Brain className="w-10 h-10 sm:w-12 sm:h-12 text-purple-600" />
+            <div className='flex justify-center'>
+
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect x="80" y="220" width="240" height="80" rx="10" fill="#6366f1" stroke="#4f46e5" stroke-width="3" />
+  
+  <g fill="#f59e0b" filter="url(#glow)">
+    <path d="M 150 180 
+             C 150 150, 180 130, 210 130
+             C 240 130, 270 150, 270 180
+             C 270 210, 250 225, 230 245
+             L 210 265
+             C 200 275, 195 285, 195 300
+             L 195 340
+             L 155 340
+             L 155 300
+             C 155 275, 165 260, 180 245
+             L 200 225
+             C 215 210, 225 200, 225 180
+             C 225 165, 215 155, 210 155
+             C 205 155, 195 165, 195 180
+             L 150 180 Z" />
+    
+    <circle cx="175" cy="370" r="18" />
+  </g>
+  
+  <text 
+    x="200" 
+    y="267" 
+    font-family="Arial, sans-serif" 
+    font-size="18" 
+    font-weight="bold" 
+    fill="white" 
+    text-anchor="middle"
+  >
+    PROMPT QUESTIONING
+  </text>
+</svg>
             </div>
+            {/* </div> */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg px-4">
               Prompt Questioning
             </h1>
@@ -603,7 +649,7 @@ Important:
     const riskBg = analytics.scopeRiskScore === 'High' ? 'bg-red-100' : analytics.scopeRiskScore === 'Medium' ? 'bg-yellow-100' : 'bg-green-100';
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
+      <div className="min-h-screen from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto py-4 sm:py-8">
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 mb-6 sm:mb-8 text-white text-center">
             <CheckCircle className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4" />

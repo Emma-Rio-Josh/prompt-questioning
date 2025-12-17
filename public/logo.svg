@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Horizontal text box -->
+  <rect x="80" y="220" width="240" height="80" rx="10" fill="#6366f1" stroke="#4f46e5" stroke-width="3" />
+  
+  <!-- Question mark -->
+  <g fill="#f59e0b" filter="url(#glow)">
+    <!-- Top curve of question mark -->
+    <path d="M 150 180 
+             C 150 150, 180 130, 210 130
+             C 240 130, 270 150, 270 180
+             C 270 210, 250 225, 230 245
+             L 210 265
+             C 200 275, 195 285, 195 300
+             L 195 340
+             L 155 340
+             L 155 300
+             C 155 275, 165 260, 180 245
+             L 200 225
+             C 215 210, 225 200, 225 180
+             C 225 165, 215 155, 210 155
+             C 205 155, 195 165, 195 180
+             L 150 180 Z" />
+    
+    <!-- Dot of question mark -->
+    <circle cx="175" cy="370" r="18" />
+  </g>
+  
+  <!-- Text inside box -->
+  <text 
+    x="200" 
+    y="267" 
+    font-family="Arial, sans-serif" 
+    font-size="18" 
+    font-weight="bold" 
+    fill="white" 
+    text-anchor="middle"
+  >
+    PROMPT QUESTIONING
+  </text>
+</svg>
