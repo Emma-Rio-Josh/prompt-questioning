@@ -824,13 +824,13 @@ p-6`}>
               <ArrowRight className="w-5 h-5" />
               <span>Start New Project</span>
             </button>
-            <button
+            {/* <button
               onClick={() => alert('Export feature - In production, this would generate a comprehensive PDF report with AI-generated insights.')}
               className="flex-1 border-2 border-purple-600 text-purple-600 py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-purple-50 transition-all flex items-center justify-center gap-2"
             >
               <FileText className="w-5 h-5" />
               <span>Export PDF</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
