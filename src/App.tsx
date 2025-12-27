@@ -407,7 +407,7 @@ Important:
   // HOME PAGE
   if (page === 'home') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-200 via-blue-600 to-green-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="min-h-screen bg-linear-to-br from-slate-200 via-blue-600 to-green-500 flex items-center justify-center p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-8 sm:mb-12">
             <div className='flex justify-center'>
@@ -472,7 +472,7 @@ Important:
 
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
-              <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-500 flex-shrink-0" />
+              <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-500 shrink-0" />
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
                 What project would you like to do?
               </h2>
@@ -495,7 +495,7 @@ Important:
 
             {inputError && (
               <div className="mt-3 flex items-start gap-2 text-red-600 bg-red-50 p-3 rounded-lg">
-                <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                 <p className="text-sm font-medium">{inputError}</p>
               </div>
             )}
@@ -503,7 +503,7 @@ Important:
             <button
               onClick={handleStartProject}
               disabled={!projectInput.trim() || isGenerating || !!inputError}
-              className="mt-4 sm:mt-6 w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl text-lg sm:text-xl font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              className="mt-4 sm:mt-6 w-full bg-linear-to-r from-purple-600 to-pink-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl text-lg sm:text-xl font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
               {isGenerating ? (
                 <>
@@ -546,12 +546,12 @@ Important:
     const isOutsideBox = currentQ?.type === 'outside-box';
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto py-4 sm:py-8">
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 flex-shrink-0" />
+                <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <h1 className="text-xl sm:text-2xl font-bold text-gray-800">AI Questioning</h1>
                   <p className="text-xs sm:text-sm text-gray-500 truncate">Project: {projectInput.substring(0, 50)}...</p>
@@ -565,7 +565,7 @@ Important:
 
             <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
               <div 
-                className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 sm:h-3 rounded-full transition-all duration-500"
+                className="bg-linear-to-r from-purple-600 to-pink-600 h-2 sm:h-3 rounded-full transition-all duration-500"
                 style={{width: `${progress}%`}}
               />
             </div>
@@ -578,16 +578,16 @@ Important:
               <p className="text-sm text-gray-500 text-center">Analyzing your answers to generate the perfect next question</p>
             </div>
           ) : (
-            <div className={`rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 ${isOutsideBox ? 'bg-gradient-to-br from-amber-50 to-orange-50 border-2 sm:border-4 border-amber-300' : 'bg-white'}`}>
+            <div className={`rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 ${isOutsideBox ? 'bg-linear-to-br from-amber-50 to-orange-50 border-2 sm:border-4 border-amber-300' : 'bg-white'}`}>
               {isOutsideBox && (
                 <div className="flex items-center gap-2 mb-4 text-amber-700 font-semibold text-sm sm:text-base">
-                  <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                   <span>🎯 AI Risk Question - Edge Case Detection</span>
                 </div>
               )}
 
               <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
-                <div className="text-4xl sm:text-5xl flex-shrink-0">{currentQ?.icon}</div>
+                <div className="text-4xl sm:text-5xl shrink-0">{currentQ?.icon}</div>
                 <div className="flex-1 min-w-0">
                   <div className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold mb-3">
                     {currentQ?.category}
@@ -614,7 +614,7 @@ Important:
                 <button
                   onClick={handleAnswerSubmit}
                   disabled={!currentAnswer.trim()}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next Question
                 </button>
@@ -651,7 +651,7 @@ Important:
     return (
       <div className="min-h-screen from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto py-4 sm:py-8">
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 mb-6 sm:mb-8 text-white text-center">
+          <div className="bg-linear-to-r from-green-500 to-emerald-600 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 mb-6 sm:mb-8 text-white text-center">
             <CheckCircle className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4" />
             <h1 className="text-3xl sm:text-4xl font-bold mb-2">AI Project Brief Complete!</h1>
             <p className="text-lg sm:text-xl text-green-100">
@@ -661,46 +661,46 @@ Important:
 
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 mb-6 sm:mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 flex-shrink-0" />
+              <Brain className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 shrink-0" />
               <span>AI Risk Assessment Dashboard</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+              <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
                 <Target className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600 mb-2 sm:mb-3" />
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-1 sm:mb-2">Requirements Captured</h3>
                 <p className="text-3xl sm:text-4xl font-bold text-purple-700">{analytics.answeredCount}</p>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+              <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
                 <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600 mb-2 sm:mb-3" />
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-1 sm:mb-2">Completeness</h3>
                 <p className="text-3xl sm:text-4xl font-bold text-blue-700">{analytics.completeness}%</p>
               </div>
 
-              <div className={`bg-gradient-to-br ${riskBg} rounded-xl sm:rounded-2xl p-4 sm:
+              <div className={`bg-linear-to-br ${riskBg} rounded-xl sm:rounded-2xl p-4 sm:
 p-6`}>
                 <Shield className="w-8 h-8 sm:w-10 sm:h-10 mb-2 sm:mb-3" />
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-1 sm:mb-2">Scope Creep Risk</h3>
                 <p className={`text-3xl sm:text-4xl font-bold ${riskColor}`}>{analytics.scopeRiskScore}</p>
               </div>
 
-              <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+              <div className="bg-linear-to-br from-amber-50 to-amber-100 rounded-xl sm:rounded-2xl p-4 sm:p-6">
                 <AlertTriangle className="w-8 h-8 sm:w-10 sm:h-10 text-amber-600 mb-2 sm:mb-3" />
                 <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-1 sm:mb-2">AI Edge Cases</h3>
                 <p className="text-3xl sm:text-4xl font-bold text-amber-700">{analytics.outsideBoxAnswered}</p>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-blue-200">
+            <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border-2 border-blue-200">
               <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 flex-shrink-0" />
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 shrink-0" />
                 <h3 className="text-lg sm:text-xl font-bold text-gray-800">AI Insights</h3>
               </div>
               <div className="space-y-3">
                 {analytics.completeness < 70 && (
                   <div className="flex gap-3">
-                    <AlertTriangle className="w-5 h-5 text-red-600 mt-1 flex-shrink-0" />
+                    <AlertTriangle className="w-5 h-5 text-red-600 mt-1 shrink-0" />
                     <div>
                       <p className="font-semibold text-red-700 text-sm sm:text-base">High Risk: Incomplete Requirements</p>
                       <p className="text-xs sm:text-sm text-gray-600">Only {analytics.completeness}% complete. Consider answering more questions.</p>
@@ -709,7 +709,7 @@ p-6`}>
                 )}
                 {!analytics.hasBudgetInfo && (
                   <div className="flex gap-3">
-                    <DollarSign className="w-5 h-5 text-yellow-600 mt-1 flex-shrink-0" />
+                    <DollarSign className="w-5 h-5 text-yellow-600 mt-1 shrink-0" />
                     <div>
                       <p className="font-semibold text-yellow-700 text-sm sm:text-base">Warning: Budget Information Missing</p>
                       <p className="text-xs sm:text-sm text-gray-600">No budget details captured by AI.</p>
@@ -718,7 +718,7 @@ p-6`}>
                 )}
                 {!analytics.hasTimelineInfo && (
                   <div className="flex gap-3">
-                    <Clock className="w-5 h-5 text-yellow-600 mt-1 flex-shrink-0" />
+                    <Clock className="w-5 h-5 text-yellow-600 mt-1 shrink-0" />
                     <div>
                       <p className="font-semibold text-yellow-700 text-sm sm:text-base">Warning: Timeline Not Defined</p>
                       <p className="text-xs sm:text-sm text-gray-600">No timeline information captured.</p>
@@ -727,7 +727,7 @@ p-6`}>
                 )}
                 {analytics.completeness >= 80 && (
                   <div className="flex gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-green-600 mt-1 shrink-0" />
                     <div>
                       <p className="font-semibold text-green-700 text-sm sm:text-base">Excellent: Well-Defined Project</p>
                       <p className="text-xs sm:text-sm text-gray-600">AI captured comprehensive requirements with strong edge case coverage.</p>
@@ -740,10 +740,10 @@ p-6`}>
 
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 flex-shrink-0" />
+              <FileText className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 shrink-0" />
               <span>AI-Generated Project Brief</span>
             </h2>
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 border-2 border-purple-200">
+            <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 border-2 border-purple-200">
               <p className="text-xs sm:text-sm font-semibold text-purple-700 mb-2">PROJECT</p>
               <p className="text-base sm:text-lg text-gray-700 break-words">{projectInput}</p>
             </div>
@@ -786,9 +786,9 @@ p-6`}>
             )}
           </div>
 
-          <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 mb-6 border-2 border-green-200">
+          <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 mb-6 border-2 border-green-200">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 flex-shrink-0" />
+              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 shrink-0" />
               <span>Scope Creep Prevention Scorecard</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -819,7 +819,7 @@ p-6`}>
                 setCurrentQuestionIndex(0);
                 setQuestions([]);
               }}
-              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
               <ArrowRight className="w-5 h-5" />
               <span>Start New Project</span>
