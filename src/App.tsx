@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, AlertTriangle, FileText, ArrowRight, Sparkles, Brain, Shield, TrendingUp, DollarSign, Clock, Target } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend } from 'recharts';
 import {GoogleGenAI} from '@google/genai';
 
 interface Question {
@@ -647,6 +648,46 @@ Important:
     const analytics = calculateAnalytics();
     const riskColor = analytics.scopeRiskScore === 'High' ? 'text-red-600' : analytics.scopeRiskScore === 'Medium' ? 'text-yellow-600' : 'text-green-600';
     const riskBg = analytics.scopeRiskScore === 'High' ? 'bg-red-100' : analytics.scopeRiskScore === 'Medium' ? 'bg-yellow-100' : 'bg-green-100';
+    const answeredByCategory = questions.reduce<Record<string, number>>((acc, question, idx) => {
+      if (answers[idx]) {
+        acc[question.category] = (acc[question.category] || 0) + 1;
+      }
+      return acc;
+    }, {});
+    const totalByCategory = questions.reduce<Record<string, number>>((acc, question) => {
+      acc[question.category] = (acc[question.category] || 0) + 1;
+      return acc;
+    }, {});
+    const categoryChartData = Object.entries(answeredByCategory).map(([name, value]) => ({
+      name,
+      value
+    }));
+    const answeredTotal = analytics.answeredCount;
+    const unansweredTotal = Math.max(analytics.totalQuestions - answeredTotal, 0);
+    const completionChartData = [
+      { name: 'Answered', value: answeredTotal },
+      { name: 'Remaining', value: unansweredTotal }
+    ];
+    const completionColors = ['#8b5cf6', '#e5e7eb'];
+    const answeredOutsideBox = Object.entries(answers).filter(([idx]) =>
+      questions[parseInt(idx, 10)]?.type === 'outside-box'
+    ).length;
+    const answeredStandard = Math.max(answeredTotal - answeredOutsideBox, 0);
+    const riskTypeChartData = [
+      { name: 'Outside-box', value: answeredOutsideBox },
+      { name: 'Standard', value: answeredStandard }
+    ];
+    const riskTypeColors = ['#f59e0b', '#60a5fa'];
+    const coverageChartData = [
+      { name: 'Budget', value: analytics.hasBudgetInfo ? 1 : 0 },
+      { name: 'Timeline', value: analytics.hasTimelineInfo ? 1 : 0 }
+    ];
+    const coverageColors = ['#22c55e', '#0ea5e9'];
+    const categoryCompletionData = Object.entries(totalByCategory).map(([name, total]) => ({
+      name,
+      answered: answeredByCategory[name] || 0,
+      total
+    }));
 
     return (
       <div className="min-h-screen from-slate-50 to-slate-100 p-4 sm:p-6 lg:p-8">
@@ -808,6 +849,104 @@ p-6`}>
             <p className="text-xs sm:text-sm text-gray-600 mt-4 text-center">
               💡 AI-powered questioning reduces scope creep by 70% compared to manual planning
             </p>
+          </div>
+
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-6 sm:p-8 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-purple-600 shrink-0" />
+              <span>Results in charts</span>
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-xl p-4 sm:p-6 border-2 border-purple-200">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">Overall progress</h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={completionChartData} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
+                        {completionChartData.map((entry, index) => (
+                          <Cell key={entry.name} fill={completionColors[index % completionColors.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-xl p-4 sm:p-6 border-2 border-blue-200">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">Answers by category</h3>
+                {categoryChartData.length > 0 ? (
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={categoryChartData} margin={{ top: 10, right: 10, bottom: 20, left: 0 }}>
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis allowDecimals={false} />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">No category data available.</p>
+                )}
+              </div>
+
+              <div className="bg-linear-to-br from-amber-50 to-orange-50 rounded-xl p-4 sm:p-6 border-2 border-amber-200">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">Risk vs standard answers</h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={riskTypeChartData} dataKey="value" nameKey="name" innerRadius={50} outerRadius={90}>
+                        {riskTypeChartData.map((entry, index) => (
+                          <Cell key={entry.name} fill={riskTypeColors[index % riskTypeColors.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="bg-linear-to-br from-emerald-50 to-sky-50 rounded-xl p-4 sm:p-6 border-2 border-emerald-200">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">Budget & timeline coverage</h3>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={coverageChartData} margin={{ top: 10, right: 10, bottom: 20, left: 0 }}>
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                      <YAxis domain={[0, 1]} ticks={[0, 1]} />
+                      <Tooltip formatter={(value: number) => (value === 1 ? 'Yes' : 'No')} />
+                      <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                        {coverageChartData.map((entry, index) => (
+                          <Cell key={entry.name} fill={coverageColors[index % coverageColors.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="bg-linear-to-br from-slate-50 to-gray-50 rounded-xl p-4 sm:p-6 border-2 border-slate-200 lg:col-span-2">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">Questions answered vs asked</h3>
+                {categoryCompletionData.length > 0 ? (
+                  <div className="h-72">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={categoryCompletionData} margin={{ top: 10, right: 10, bottom: 30, left: 0 }}>
+                        <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                        <YAxis allowDecimals={false} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="answered" name="Answered" fill="#6366f1" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="total" name="Asked" fill="#cbd5f5" radius={[6, 6, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">No category data available.</p>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
